@@ -11,6 +11,21 @@ KNN Image Classifier example with p5.js
 
 let knn;
 let video;
+const btn = document.getElementById("buttonNew");
+const cdn = document.getElementById("countdown");
+var countdown_num = 5;
+
+function countdown_f() {
+  cdn.innerHTML = countdown_num;
+  if(countdown_num == 0){
+	  cdn.style.display = "none";
+	  predict();
+	  clearTimeout(ct);
+  }else{
+	  countdown_num--;
+	  ct = setTimeout(countdown_f, 1000);
+  }
+}
 
 function setup() {
   noCanvas();
@@ -32,7 +47,10 @@ function createButtons() {
 
 
 function restart() {
-
+	//var voice1 = new Audio("XX.awv");
+	//voice1.play();
+   countdown_f();
+   btn.style.display = "none";
    predict();
 
 }
@@ -69,9 +87,11 @@ function gotResults(results) {
   }
   //select('#result').html(msg);
 
-  setTimeout(function(){
+  win_t = setTimeout(win, 3000);
+  
+  /*setTimeout(function(){
     predict();
-  }, 50);
+  }, 50);*/
 }
 
 // Clear the data in one class
@@ -79,3 +99,10 @@ function clearClass(classIndex) {
   knn.clearClass(classIndex);
 }
 
+function win(){
+	cdn.innerHTML = "WIN!";
+	cdn.style.display = "";
+	countdown_num = 5;
+	document.getElementById("myImg").src = "";
+	btn.style.display = "";
+}
